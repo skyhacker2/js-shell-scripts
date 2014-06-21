@@ -47,6 +47,7 @@ var prefix = {
 	ttf: "st_"
 };
 
+
 // BFS
 function walk(root, filter) {
 	var lists = fs.readdirSync(root);
@@ -94,6 +95,8 @@ var data = ["//",
 ];
 
 // dirs
+data.push("");
+data.push("// search directory");
 var searchPaths = 'static const std::vector<std::string> searchPaths = {\n';
 dirs.forEach(function(d) {
 	searchPaths += '\t"' + d + '",\n';
@@ -102,6 +105,12 @@ searchPaths += '};';
 data.push(searchPaths);
 
 // files
+data.push("");
+data.push("// files");
+data.push("//si_ for images");
+data.push("//sp_ for plist");
+data.push("//st_ for ttf");
+data.push("//sjs_ for json");
 files.forEach(function(file) {
 	var name = file.split('.')[0];
 	var extName  = file.split('.')[1];
