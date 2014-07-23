@@ -11,7 +11,7 @@ var fs = require('fs');
 function usage() {
 	console.log("usage: Rs.js directory [output file].");
 }
-if (process.argv.length < 3 || process.argv.length > 3) {
+if (process.argv.length < 3 || process.argv.length > 4) {
 	usage();
 	process.exit(1);
 }
@@ -32,7 +32,11 @@ if (!stats.isDirectory()) {
 	process.exit(1);
 }
 
-var dirs = [];
+var hdDirName = 'hd';
+var normalDirName = 'normal';
+var dirs = [];	// 全部文件夹
+var hdDirs = []; // hd文件夹
+var normalDirs = [];
 var files = [];
 var ext = {
 	png: "png",
@@ -71,6 +75,16 @@ var format = function(str) {
 	})
 
 }
+/** 根据路径判断是高清文件夹还是普通文件夹*/
+function pushDirName(dirPath) {
+	dirs.push(dirPath);
+	if (dirPath.indexOf(normalDirName) < 0) {
+		hdDirs.push(dirPath);
+	}
+	if (dirPath.indexOf(hdDirName) < 0) {
+		normalDirs.push(dirPath);
+	}
+}
 
 // BFS
 function walk(root, filter, fullpath) {
@@ -82,7 +96,8 @@ function walk(root, filter, fullpath) {
 			filter(path);
 			pathMap[path] = fullpath + path;
 		} else if(stats.isDirectory()) {
-			dirs.push(path);
+			//dirs.push(fullpath + path);
+			pushDirName(fullpath + path);
 			tmpDirs.push(path);
 		}
 	});
@@ -139,6 +154,27 @@ dirs.forEach(function(d) {
 searchPaths += '};';
 data.push(searchPaths);
 
+// hd Dirs
+if (hdDirs.length > 0) {
+	data.push("/** High definition directory)*/");
+	var hdSearchPaths = 'static const std::vector<std::string> hdSearchPaths = {\n';
+	hdDirs.forEach(function(d) {
+		hdSearchPaths += '\t"' + d + '",\n';
+	});
+	hdSearchPaths += '};';
+	data.push(hdSearchPaths);
+}
+// normal Dirs
+if (normalDirs.length > 0) {
+	data.push("/** Normal definition directory)*/");
+	var normalSearchPaths = 'static const std::vector<std::string> normalSearchPaths = {\n';
+	normalDirs.forEach(function(d) {
+		normalSearchPaths += '\t"' + d + '",\n';
+	});
+	normalSearchPaths += '};';
+	data.push(normalSearchPaths);
+}
+
 // files
 data.push("");
 data.push("/* Files */");
@@ -165,6 +201,7 @@ files.forEach(function(file) {
 		});
 		var vector = [format('static const std::vector<std::string> plist_{1}_frames = {', varName)];
 		frames.forEach(function(frame) {
+			frame = frame.replace(/\//g,"_").toLowerCase();
 			data.push(format('static const char plist_{1}_{2}[] = "{3}";', varName, frame.split('.')[0], frame));
 			vector.push(format('\t"{1}",', frame));
 		});
@@ -178,7 +215,7 @@ files.forEach(function(file) {
 data.push("");
 data.push("#endif");
 //console.log(data.join('\n'));
-var out = "Resources.h";
+var out = "HNResources.h";
 if (fs.existsSync('../Classes/')) {
 	out = "../Classes/" + out;
 }
