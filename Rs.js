@@ -156,7 +156,7 @@ data.push(searchPaths);
 
 // hd Dirs
 if (hdDirs.length > 0) {
-	data.push("/** High definition directory)*/");
+	data.push("/** High definition directory*/");
 	var hdSearchPaths = 'static const std::vector<std::string> hdSearchPaths = {\n';
 	hdDirs.forEach(function(d) {
 		hdSearchPaths += '\t"' + d + '",\n';
@@ -166,7 +166,7 @@ if (hdDirs.length > 0) {
 }
 // normal Dirs
 if (normalDirs.length > 0) {
-	data.push("/** Normal definition directory)*/");
+	data.push("/** Normal definition directory*/");
 	var normalSearchPaths = 'static const std::vector<std::string> normalSearchPaths = {\n';
 	normalDirs.forEach(function(d) {
 		normalSearchPaths += '\t"' + d + '",\n';
