@@ -201,8 +201,8 @@ files.forEach(function(file) {
 		});
 		var vector = [format('static const std::vector<std::string> plist_{1}_frames = {', varName)];
 		frames.forEach(function(frame) {
-			frame = frame.replace(/\//g,"_").toLowerCase();
-			data.push(format('static const char plist_{1}_{2}[] = "{3}";', varName, frame.split('.')[0], frame));
+			var lowerName = frame.replace(/\//g,"_").toLowerCase();
+			data.push(format('static const char plist_{1}_{2}[] = "{3}";', varName, lowerName.split('.')[0], frame));
 			vector.push(format('\t"{1}",', frame));
 		});
 		vector.push('};');
