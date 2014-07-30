@@ -197,7 +197,13 @@ files.forEach(function(file) {
 		var plist = fs.readFileSync(pathMap[file], 'utf-8');
 		var frames = getFrames(plist);
 		frames.sort(function($1, $2) {
-			return $1 >= $2;
+			if ($1 < $2) {
+				return -1;
+			} else if ($1 == $2) {
+				return 0;
+			} else {
+				return 1;
+			}
 		});
 		var vector = [format('static const std::vector<std::string> plist_{1}_frames = {', varName)];
 		frames.forEach(function(frame) {
