@@ -42,11 +42,13 @@ var ext = {
 	png: "png",
 	plist: "plist",
 	json: "json",
+	exportjson: "exportjson",
 	ttf: "ttf",
 	mp3: "mp3",
 	wav: "wav",
 	jpg: "jpg",
-	jpeg: "jpeg"
+	jpeg: "jpeg",
+	txt: "txt"
 };
 var prefix = {
 	png: "image_",
@@ -54,9 +56,11 @@ var prefix = {
 	jpeg: "image_",
 	plist: "plist_",
 	json: "json_",
+	ExportJson: "json_",
 	ttf: "ttf_",
 	wav: "music_",
-	mp3: "music_"
+	mp3: "music_",
+	txt: "txt_"
 };
 // 完整路径映射
 var pathMap = {};
@@ -97,8 +101,11 @@ function walk(root, filter, fullpath) {
 			pathMap[path] = fullpath + path;
 		} else if(stats.isDirectory()) {
 			//dirs.push(fullpath + path);
-			pushDirName(fullpath + path);
-			tmpDirs.push(path);
+			// 跑酷的文件夹忽略掉
+			if (path.indexOf("parkour") == -1) {
+				pushDirName(fullpath + path);
+				tmpDirs.push(path);
+			}
 		}
 	});
 
