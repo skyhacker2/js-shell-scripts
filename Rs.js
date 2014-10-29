@@ -44,6 +44,7 @@ var ext = {
 	json: "json",
 	exportjson: "exportjson",
 	ttf: "ttf",
+	fnt: "fnt",
 	mp3: "mp3",
 	wav: "wav",
 	jpg: "jpg",
@@ -58,6 +59,7 @@ var prefix = {
 	json: "json_",
 	ExportJson: "json_",
 	ttf: "ttf_",
+	fnt: "fnt_",
 	wav: "music_",
 	mp3: "music_",
 	txt: "txt_"
