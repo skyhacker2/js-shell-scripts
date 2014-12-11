@@ -49,7 +49,8 @@ var ext = {
 	wav: "wav",
 	jpg: "jpg",
 	jpeg: "jpeg",
-	txt: "txt"
+	txt: "txt",
+	tmx: "tmx"
 };
 var prefix = {
 	png: "image_",
@@ -62,7 +63,8 @@ var prefix = {
 	fnt: "fnt_",
 	wav: "music_",
 	mp3: "music_",
-	txt: "txt_"
+	txt: "txt_",
+	tmx: "tmx_"
 };
 // 完整路径映射
 var pathMap = {};
